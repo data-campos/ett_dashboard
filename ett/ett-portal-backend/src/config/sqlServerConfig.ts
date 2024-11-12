@@ -16,7 +16,7 @@ const sqlServerConfig = {
       min: 0,
       idleTimeoutMillis: 30000,
   },
-  requestTimeout: 120000, // Timeout temporário de 2 minutos
+  requestTimeout: 300000, // Timeout temporário de 2 minutos
 };
 
 

@@ -35,8 +35,6 @@ const Dashboard: React.FC<DashboardProps> = ({ coligadaId }) => {
       }
     };    
     
-    
-  
     const fetchFuncionarios = async () => {
       const token = localStorage.getItem('token');
       console.log("Token utilizado para funcionários:", token); // Para verificar o token
@@ -132,57 +130,7 @@ const Dashboard: React.FC<DashboardProps> = ({ coligadaId }) => {
         ))}
       </div>
 
-      {/* <input
-        type="text"
-        placeholder="Buscar por nome, função ou seção"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className="mb-4 p-2 border border-gray-300 rounded w-full"
-      />
-
-     {/* <div className="bg-white p-6 rounded-lg shadow-md overflow-auto hover:shadow-lg transition-shadow duration-300 ease-in-out">
-        <h2 className="text-xl font-semibold text-gray-700 mb-4">Detalhes de Funcionários por Coligada</h2>
-        <table className="w-full table-auto border-collapse">
-          <thead>
-            <tr className="bg-gray-200 text-gray-600 uppercase text-xs leading-normal">
-              <th className="py-3 px-6 text-left">Coligada</th>
-              <th className="py-3 px-6 text-left">Chapa</th>
-              <th className="py-3 px-6 text-left">Nome Funcionário</th>
-              <th className="py-3 px-6 text-center">Sexo</th>
-              <th className="py-3 px-6 text-center">CPF</th>
-              <th className="py-3 px-6 text-left">Função</th>
-              <th className="py-3 px-6 text-left">Descrição Seção</th>
-              <th className="py-3 px-6 text-center">Data Admissão</th>
-              <th className="py-3 px-6 text-center">Data Nascimento</th>
-              <th className="py-3 px-6 text-center">Evento</th>
-              <th className="py-3 px-6 text-right">Valor</th>
-            </tr>
-          </thead>
-          <tbody className="text-gray-600 text-sm font-light">
-            {filteredFuncionarios.length > 0 ? (
-              filteredFuncionarios.map((funcionario: any, i: number) => (
-                <tr key={i} className="border-b border-gray-200 hover:bg-gray-100">
-                  <td className="py-3 px-6 text-left whitespace-nowrap">{funcionario.CODCOLIGADA}</td>
-                  <td className="py-3 px-6 text-left">{funcionario.CHAPA}</td>
-                  <td className="py-3 px-6 text-left">{funcionario.NOME_FUNCIONARIO}</td>
-                  <td className="py-3 px-6 text-center">{funcionario.SEXO}</td>
-                  <td className="py-3 px-6 text-center">{funcionario.CPF}</td>
-                  <td className="py-3 px-6 text-left">{funcionario.NOME_FUNCAO}</td>
-                  <td className="py-3 px-6 text-left">{funcionario.DESCRICAO_SECAO}</td>
-                  <td className="py-3 px-6 text-center">{new Date(funcionario.DATAADMISSAO).toLocaleDateString()}</td>
-                  <td className="py-3 px-6 text-center">{new Date(funcionario.DTNASCIMENTO).toLocaleDateString()}</td>
-                  <td className="py-3 px-6 text-center">{funcionario.EVENTO}</td>
-                  <td className="py-3 px-6 text-right">R$ {funcionario.VALOR.toFixed(2)}</td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan={11} className="py-3 px-6 text-center">Nenhum funcionário encontrado</td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div> */}
+      {/* Removendo a parte do input e tabela de funcionários para exibir somente os gráficos */}
     </div>
   );
 };

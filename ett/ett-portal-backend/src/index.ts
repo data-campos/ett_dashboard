@@ -9,6 +9,7 @@ import funcionarioRoutes from './routes/funcionarioRoutes';
 import { connectToSqlServer } from './config/sqlServerConfig';
 import dashboardRoutes from './routes/dashboardRoutes';
 import partnerRoutes from './routes/partnerRoutes';
+import grupoEmpresarialRoutes from './routes/grupoEmpresarialRoutes';
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ app.use('/auth', authRoutes);
 app.use('/api', funcionarioRoutes);
 app.use('/api', dashboardRoutes);
 app.use('/api', partnerRoutes);
+app.use('/api', grupoEmpresarialRoutes);
 
 const PORT = process.env.PORT || 5000;
 
