@@ -63,6 +63,22 @@ const SuperUserMenu: React.FC = () => {
                 Controle de Acesso de Parceiros
               </Link>
             </li>
+            <li>
+              <Link
+                to="/config/create-business-group"
+                className="block px-4 py-2 rounded hover:bg-blue-600"
+              >
+                Cadastrar Grupo Empresarial
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/config/create-admin-user"
+                className="block px-4 py-2 rounded hover:bg-blue-600"
+              >
+                Cadastrar Usuário Administrativo
+              </Link>
+            </li>
           </ul>
         </div>
       </div>

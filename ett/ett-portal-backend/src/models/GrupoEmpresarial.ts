@@ -1,7 +1,7 @@
 // src/models/GrupoEmpresarial.ts
 
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { ControleAcessoParceiro } from './ControleAcessoParceiro';
+import { ControleAcessoParceiroGrupo } from './ControleAcessoParceiroGrupo';
 
 @Entity('grupo_empresarial')
 export class GrupoEmpresarial {
@@ -9,11 +9,11 @@ export class GrupoEmpresarial {
   id!: number;
 
   @Column()
-  nome!: string;
+  nome_grupo!: string;
 
-  @Column({ nullable: true })
-  descricao?: string;
+  @Column({ default: true })
+  status_acesso!: boolean;
 
-  @OneToMany(() => ControleAcessoParceiro, parceiro => parceiro.grupoEmpresarial)
-  parceiros!: ControleAcessoParceiro[];
+  @OneToMany(() => ControleAcessoParceiroGrupo, (parceiroGrupo) => parceiroGrupo.grupoEmpresarial)
+  parceiros!: ControleAcessoParceiroGrupo[];
 }

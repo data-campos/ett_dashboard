@@ -1,18 +1,23 @@
 // src/routes/grupoEmpresarialRoutes.ts
 
 import { Router } from 'express';
-import { criarGrupoEmpresarial, listarGruposEmpresariais, atualizarStatusGrupo } from '../controllers/grupoEmpresarialController';
-import { asyncHandler } from '../utils/asyncHandler';
+import { 
+  criarGrupoEmpresarial, 
+  listarGruposEmpresariais, 
+  associarEmpresasAoGrupo, 
+  atualizarStatusGrupo,
+  listarEmpresasAssociadas
+} from '../controllers/grupoEmpresarialController';
+import { asyncHandler } from '../utils/asyncHandler'; // Importe o asyncHandler
 
 const router = Router();
 
-// Rota para criar um grupo empresarial
 router.post('/grupo-empresarial', asyncHandler(criarGrupoEmpresarial));
-
-// Rota para listar grupos empresariais
 router.get('/grupo-empresarial', asyncHandler(listarGruposEmpresariais));
-
-// Rota para atualizar o status do grupo empresarial
+//router.post('/grupo-empresarial/associar', asyncHandler(associarEmpresaAoGrupo));
 router.put('/grupo-empresarial/:id/status', asyncHandler(atualizarStatusGrupo));
+router.post('/grupo-empresarial/associar-multiplos', asyncHandler(associarEmpresasAoGrupo));
+router.get('/grupo-empresarial/:grupoEmpresarialId/partners', asyncHandler(listarEmpresasAssociadas));
+
 
 export default router;

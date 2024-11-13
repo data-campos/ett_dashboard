@@ -3,10 +3,10 @@ import mysql from 'mysql2/promise';
 
 // Configuração para conectar ao MySQL diretamente no script
 const mysqlConfig = {
-  host: 'localhost', // Ajuste para o seu host
-  user: 'dtc_saga', // Substitua pelo usuário correto
-  password: '179856', // Substitua pela senha correta
-  database: 'db_st_ettfirst', // Nome do banco de dados
+  host: 'localhost',
+  user: 'dtc_saga',
+  password: '179856',
+  database: 'db_st_ettfirst',
   port: 3308,
 };
 
@@ -40,7 +40,7 @@ async function syncParceirosUnicos() {
     for (const empresa of empresasParceiras) {
       const { nome_parceiro, coligada_id } = empresa;
 
-      // Inserir apenas se o registro não existir
+      // Inserir o registro apenas se ele não existir, com o nome_parceiro correto
       await mysqlConnection.execute(`
         INSERT IGNORE INTO controle_acesso_parceiros (nome_parceiro, coligada_id, status_acesso)
         VALUES (?, ?, TRUE)

@@ -30,6 +30,8 @@ AppDataSource.initialize()
   .then(async () => {
     console.log('Conectado ao MySQL');
     await connectToSqlServer(); // Conecta ao SQL Server
+
+    // Iniciar o servidor somente após as conexões serem inicializadas
     app.listen(PORT, () => {
       console.log(`Servidor rodando na porta ${PORT}`);
     });

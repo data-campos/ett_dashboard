@@ -33,8 +33,8 @@ const Dashboard: React.FC<DashboardProps> = ({ coligadaId }) => {
           window.location.href = '/';
         }
       }
-    };    
-    
+    };
+
     const fetchFuncionarios = async () => {
       const token = localStorage.getItem('token');
       console.log("Token utilizado para funcionários:", token); // Para verificar o token
@@ -50,11 +50,10 @@ const Dashboard: React.FC<DashboardProps> = ({ coligadaId }) => {
         alert('Erro ao carregar dados dos funcionários.');
       }
     };
-  
+
     fetchDashboardData();
     fetchFuncionarios();
   }, [coligadaId]);
-  
 
   if (!dashboardData || !Array.isArray(dashboardData)) {
     return <p>Carregando dados do dashboard...</p>;
@@ -63,13 +62,9 @@ const Dashboard: React.FC<DashboardProps> = ({ coligadaId }) => {
   const formatNumber = (value: number) => new Intl.NumberFormat('pt-BR').format(value);
   const formatCurrency = (value: number) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
 
-  const filteredFuncionarios = funcionarios.filter((funcionario) =>
-    funcionario.NOME_FUNCIONARIO.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    funcionario.NOME_FUNCAO.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    funcionario.DESCRICAO_SECAO.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const coligadas = dashboardData.map((item: any) => `Coligada ${item.CODCOLIGADA}`);
+  const coligadas = dashboardData.map((item: any) => {
+    return item.CODCOLIGADA === 1 ? 'ETT' : item.CODCOLIGADA === 6 ? 'First' : `Coligada ${item.CODCOLIGADA}`;
+  });
   const totalFuncionarios = dashboardData.map((item: any) => item.totalFuncionarios);
   const mediaSalario = dashboardData.map((item: any) => item.mediaSalario);
   const totalMasculino = dashboardData.map((item: any) => item.totalMasculino);
@@ -98,7 +93,9 @@ const Dashboard: React.FC<DashboardProps> = ({ coligadaId }) => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
         {dashboardData.map((item: any, index: number) => (
           <div key={index} className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out">
-            <h2 className="text-xl font-semibold text-gray-700 mb-2">Coligada {item.CODCOLIGADA}</h2>
+            <h2 className="text-xl font-semibold text-gray-700 mb-2">
+              {item.CODCOLIGADA === 1 ? 'ETT' : item.CODCOLIGADA === 6 ? 'First' : `Coligada ${item.CODCOLIGADA}`}
+            </h2>
             <p className="text-gray-600">Total de Funcionários: <span className="font-medium">{formatNumber(item.totalFuncionarios)}</span></p>
             <p className="text-gray-600">Média Salarial: <span className="font-medium">{formatCurrency(item.mediaSalario)}</span></p>
             <p className="text-gray-600">Masculino: <span className="font-medium">{formatNumber(item.totalMasculino)}</span></p>
@@ -114,7 +111,9 @@ const Dashboard: React.FC<DashboardProps> = ({ coligadaId }) => {
         </div>
         {dashboardData.map((item: any, index: number) => (
           <div key={index} className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out">
-            <h2 className="text-xl font-semibold text-gray-700 mb-4">Distribuição de Gênero - Coligada {item.CODCOLIGADA}</h2>
+            <h2 className="text-xl font-semibold text-gray-700 mb-4">
+              Distribuição de Gênero - {item.CODCOLIGADA === 1 ? 'ETT' : item.CODCOLIGADA === 6 ? 'First' : `Coligada ${item.CODCOLIGADA}`}
+            </h2>
             <Pie
               data={{
                 labels: ['Masculino', 'Feminino'],

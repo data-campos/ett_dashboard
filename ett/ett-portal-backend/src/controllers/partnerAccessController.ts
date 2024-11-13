@@ -2,6 +2,7 @@
 
 import { Request, Response } from 'express';
 import { AppDataSource } from '../data-source';
+import { Parceiro } from '../models/Parceiro';
 
 // Função para listar status de acesso das empresas parceiras de uma coligada específica
 export const getPartnerAccessStatus = async (req: Request, res: Response) => {
@@ -30,5 +31,15 @@ export const updatePartnerAccessStatus = async (req: Request, res: Response) => 
   } catch (error) {
     console.error('Erro ao atualizar status de acesso:', error);
     res.status(500).json({ message: 'Erro ao atualizar status de acesso' });
+  }
+};
+
+export const listarParceiros = async (req: Request, res: Response) => {
+  try {
+    const parceiros = await AppDataSource.getRepository(Parceiro).find(); // Usando AppDataSource.getRepository
+    res.status(200).json(parceiros);
+  } catch (error) {
+    console.error('Erro ao listar parceiros:', error);
+    res.status(500).json({ message: 'Erro ao listar parceiros' });
   }
 };

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getPartnerAccessStatus, updatePartnerAccessStatus } from '../controllers/partnerAccessController';
+import { getPartnerAccessStatus, updatePartnerAccessStatus, listarParceiros } from '../controllers/partnerAccessController';
 
 const router = Router();
 
@@ -8,5 +8,6 @@ router.get('/partner-access', getPartnerAccessStatus);
 
 // Rota para atualizar o status de acesso de uma empresa parceira
 router.post('/partner-access/update', updatePartnerAccessStatus);
+router.get('/controle-acesso-parceiros', listarParceiros);
 
 export default router;
