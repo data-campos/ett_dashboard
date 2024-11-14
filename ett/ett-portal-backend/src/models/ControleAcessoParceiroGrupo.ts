@@ -2,6 +2,7 @@
 
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { GrupoEmpresarial } from './GrupoEmpresarial';
+import { Parceiro } from './Parceiro';
 
 @Entity('controle_acesso_parceiro_grupo')
 export class ControleAcessoParceiroGrupo {
@@ -14,10 +15,14 @@ export class ControleAcessoParceiroGrupo {
   @Column()
   parceiro_id!: number;
 
-  @Column({ default: true })  // Certifique-se de que status_acesso está definido aqui
+  @Column({ default: true })
   status_acesso!: boolean;
 
-  @ManyToOne(() => GrupoEmpresarial)
+  @ManyToOne(() => GrupoEmpresarial, (grupoEmpresarial) => grupoEmpresarial.parceiros)
   @JoinColumn({ name: 'grupo_empresarial_id' })
   grupoEmpresarial!: GrupoEmpresarial;
+
+  @ManyToOne(() => Parceiro)
+  @JoinColumn({ name: 'parceiro_id' })
+  parceiro!: Parceiro; // Relacionamento com o modelo Parceiro
 }

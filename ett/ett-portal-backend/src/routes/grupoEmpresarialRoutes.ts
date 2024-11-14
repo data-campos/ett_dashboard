@@ -6,18 +6,22 @@ import {
   listarGruposEmpresariais, 
   associarEmpresasAoGrupo, 
   atualizarStatusGrupo,
-  listarEmpresasAssociadas
+  listarEmpresasAssociadas,
+  editarGrupoEmpresarial,
+  excluirGrupoEmpresarial,
+  dessassociarEmpresaDoGrupo
 } from '../controllers/grupoEmpresarialController';
-import { asyncHandler } from '../utils/asyncHandler'; // Importe o asyncHandler
+import { asyncHandler } from '../utils/asyncHandler';
 
 const router = Router();
 
 router.post('/grupo-empresarial', asyncHandler(criarGrupoEmpresarial));
 router.get('/grupo-empresarial', asyncHandler(listarGruposEmpresariais));
-//router.post('/grupo-empresarial/associar', asyncHandler(associarEmpresaAoGrupo));
+router.post('/grupo-empresarial/associar-multiplos', asyncHandler(associarEmpresasAoGrupo)); 
 router.put('/grupo-empresarial/:id/status', asyncHandler(atualizarStatusGrupo));
-router.post('/grupo-empresarial/associar-multiplos', asyncHandler(associarEmpresasAoGrupo));
 router.get('/grupo-empresarial/:grupoEmpresarialId/partners', asyncHandler(listarEmpresasAssociadas));
-
+router.put('/grupo-empresarial/:id', asyncHandler(editarGrupoEmpresarial)); // Editar grupo
+router.delete('/grupo-empresarial/:id', asyncHandler(excluirGrupoEmpresarial));
+router.delete('/grupo-empresarial/dessassociar', asyncHandler(dessassociarEmpresaDoGrupo));
 
 export default router;

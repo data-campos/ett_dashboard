@@ -1,18 +1,22 @@
 // src/models/Parceiro.ts
 
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { ControleAcessoParceiroGrupo } from './ControleAcessoParceiroGrupo';
 
 @Entity('controle_acesso_parceiros')
 export class Parceiro {
   @PrimaryGeneratedColumn()
-  id!: number; // usando o operador `!` para garantir ao TypeScript que o valor será atribuído pelo TypeORM
+  id!: number;
 
   @Column()
-  nome_parceiro!: string; // `!` para sinalizar que TypeORM vai definir um valor para essa propriedade
+  nome_parceiro!: string;
 
   @Column()
-  coligada_id!: number; // `!` para sinalizar que será inicializado pelo TypeORM
+  coligada_id!: number;
 
   @Column({ default: true })
-  status_acesso: boolean = true; // inicializando com valor padrão
+  status_acesso: boolean = true;
+
+  @OneToMany(() => ControleAcessoParceiroGrupo, (associacao) => associacao.parceiro)
+  associacoes!: ControleAcessoParceiroGrupo[];
 }

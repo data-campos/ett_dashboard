@@ -22,6 +22,9 @@ const PartnerAccessControl: React.FC = () => {
   const [selectedGroupId, setSelectedGroupId] = useState<number | null>(null);
   const [partners, setPartners] = useState<Partner[]>([]);
   const [availablePartners, setAvailablePartners] = useState<Partner[]>([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   useEffect(() => {
     const fetchBusinessGroups = async () => {
@@ -56,16 +59,52 @@ const PartnerAccessControl: React.FC = () => {
 
   const associatePartnerToGroup = async (partnerId: number) => {
     try {
-      await axios.post('http://localhost:5000/api/grupo-empresarial/associar', {
-        grupo_empresarial_id: selectedGroupId,
-        parceiro_id: partnerId,
+      await axios.post('http://localhost:5000/api/grupo-empresarial/associar-multiplos', {
+        grupoEmpresarialId: selectedGroupId,
+        parceirosIds: [partnerId],
       });
-      setPartners([...partners, availablePartners.find(p => p.id === partnerId)!]);
+      setPartners([...partners, availablePartners.find((p) => p.id === partnerId)!]);
     } catch (error) {
       console.error('Erro ao associar parceiro ao grupo', error);
       alert('Erro ao associar parceiro ao grupo.');
     }
   };
+
+  const disassociatePartnerFromGroup = async (partnerId: number) => {
+    if (!selectedGroupId || isNaN(Number(selectedGroupId)) || isNaN(Number(partnerId))) {
+        console.error("ID inválido detectado", { selectedGroupId, partnerId });
+        alert("Erro: IDs inválidos detectados para desassociar.");
+        return;
+    }
+
+    try {
+        await axios.delete('http://localhost:5000/api/grupo-empresarial/dessassociar', {
+            data: {
+                grupoEmpresarialId: Number(selectedGroupId),
+                parceiroId: Number(partnerId),
+            },
+        });
+        setPartners(partners.filter((partner) => partner.id !== partnerId));
+    } catch (error) {
+        console.error('Erro ao dessassociar parceiro do grupo', error);
+        alert('Erro ao dessassociar parceiro do grupo.');
+    }
+};
+
+
+  // Filtro e Paginação para Empresas Disponíveis
+  const filteredPartners = availablePartners.filter((partner) =>
+    partner.nome_parceiro.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentAvailablePartners = filteredPartners.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Número de páginas baseado em `filteredPartners`
+  const pageNumbers = Array.from(
+    { length: Math.ceil(filteredPartners.length / itemsPerPage) },
+    (_, i) => i + 1
+  );
 
   return (
     <div className="p-6 bg-white rounded-lg shadow-md">
@@ -91,6 +130,7 @@ const PartnerAccessControl: React.FC = () => {
           <tr>
             <th className="border-b p-2">Nome da Empresa</th>
             <th className="border-b p-2">Status de Acesso</th>
+            <th className="border-b p-2">Ação</th>
           </tr>
         </thead>
         <tbody>
@@ -98,14 +138,32 @@ const PartnerAccessControl: React.FC = () => {
             <tr key={partner.id}>
               <td className="border-b p-2">{partner.nome_parceiro}</td>
               <td className="border-b p-2">{partner.status_acesso ? 'Ativo' : 'Desativado'}</td>
+              <td className="border-b p-2">
+                <button
+                  onClick={() => disassociatePartnerFromGroup(partner.id)}
+                  className="px-4 py-2 bg-red-500 text-white rounded"
+                >
+                  Dessassociar
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
 
       <h3 className="text-lg font-semibold mt-6">Associar Nova Empresa ao Grupo</h3>
+
+      {/* Campo de Pesquisa */}
+      <input
+        type="text"
+        placeholder="Pesquisar empresa"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="mb-4 p-2 border rounded w-full"
+      />
+
       <ul className="mt-2">
-        {availablePartners
+        {currentAvailablePartners
           .filter((partner) => !partners.some((p) => p.id === partner.id))
           .map((partner) => (
             <li key={partner.id} className="flex items-center justify-between mb-2">
@@ -119,6 +177,21 @@ const PartnerAccessControl: React.FC = () => {
             </li>
           ))}
       </ul>
+
+      {/* Paginação */}
+      <div className="mt-4 flex justify-center">
+        {pageNumbers.map((number) => (
+          <button
+            key={number}
+            onClick={() => setCurrentPage(number)}
+            className={`px-3 py-1 mx-1 rounded ${
+              currentPage === number ? 'bg-blue-600 text-white' : 'bg-gray-300'
+            }`}
+          >
+            {number}
+          </button>
+        ))}
+      </div>
     </div>
   );
 };

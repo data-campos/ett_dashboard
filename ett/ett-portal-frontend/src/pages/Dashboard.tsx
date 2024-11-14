@@ -35,7 +35,7 @@ const Dashboard: React.FC<DashboardProps> = ({ coligadaId }) => {
       }
     };
 
-    const fetchFuncionarios = async () => {
+ /*   const fetchFuncionarios = async () => {
       const token = localStorage.getItem('token');
       console.log("Token utilizado para funcionários:", token); // Para verificar o token
       try {
@@ -49,10 +49,10 @@ const Dashboard: React.FC<DashboardProps> = ({ coligadaId }) => {
         console.error('Erro ao obter funcionários', error);
         alert('Erro ao carregar dados dos funcionários.');
       }
-    };
+    };*/
 
     fetchDashboardData();
-    fetchFuncionarios();
+   //fetchFuncionarios();
   }, [coligadaId]);
 
   if (!dashboardData || !Array.isArray(dashboardData)) {
